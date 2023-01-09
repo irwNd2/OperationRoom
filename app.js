@@ -20,7 +20,7 @@ app.post("/bookingkamaroperasi/:booking/:duration", (req, res) => {
 
   // Check if the operation room is available during the requested time period
   const conflicts = bookings.some(
-    (booking) => booking.start < endTime && booking.endTime > start
+    (booking) => booking.start < endTime && booking.endTime > start || booking.start <= endTime && booking.endTime >= start
   );
 
   if (conflicts) {
