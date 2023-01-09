@@ -15,13 +15,14 @@ app.post("/bookingkamaroperasi/:booking/:duration", (req, res) => {
   const date = `${bookingDate}T${startTime}:00.000Z`;
   const start = new Date(date);
   const endTime = new Date(date);
-  endTime.setHours(endTime.getHours() + parseInt(duration) + 2);
+  endTime.setHours(endTime.getHours() + parseInt(duration) + 1);
+  endTime.setMinutes(endTime.getMinutes() + 59);
   endTime.toISOString();
 
   // Check if the operation room is available during the requested time period
   const conflicts = bookings.some(
-    (booking) => booking.start < endTime && booking.endTime > start || booking.start <= endTime && booking.endTime >= start
-  );
+    (booking) => booking.start < endTime && booking.endTime > start
+    );
 
   if (conflicts) {
     // If there is a conflict, return a 409 Conflict response and false message
